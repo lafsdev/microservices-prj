@@ -1,7 +1,6 @@
 package io.github.lafsdev.msclients.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +10,9 @@ import lombok.NoArgsConstructor;
 public class Cliente {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Basic(optional = false)
+    @Column(name = "id",unique=true, nullable = false)
     private Long Id;
     private String cpf;
     private String nome;
