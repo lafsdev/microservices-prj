@@ -3,6 +3,7 @@ package io.github.lafsdev.msclients.application.controller;
 import io.github.lafsdev.msclients.application.representation.ClienteSaveRequest;
 import io.github.lafsdev.msclients.application.service.ClienteService;
 import io.github.lafsdev.msclients.domain.Cliente;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -12,6 +13,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("clientes")
+@Slf4j
 public class ClientesController {
 
     private final ClienteService clienteService;
@@ -22,6 +24,7 @@ public class ClientesController {
 
     @GetMapping
     public String status(){
+        log.info("Obtendo status do microservice de clients");
         return "ok";
     }
 
