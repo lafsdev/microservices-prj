@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>io.github.lafsdev</groupId>
-	<artifactId>Gateway</artifactId>
+	<artifactId>msgateway</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Gateway</name>
 	<description>MS Gateway</description>
