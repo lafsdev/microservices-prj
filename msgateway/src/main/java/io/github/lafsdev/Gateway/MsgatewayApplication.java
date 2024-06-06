@@ -19,7 +19,7 @@ public class MsgatewayApplication {
 	public RouteLocator routes(RouteLocatorBuilder routeLocatorBuilder){
 		return routeLocatorBuilder
 				.routes()
-				.route(r -> r.path("/clientes/**").uri("lb://msclients"))
+				.route(r -> r.path("/clientes/**").uri("lb://msclientes"))
 				.route(r -> r.path("/cartoes/**").uri("lb://mscartoes"))
 				.route(r -> r.path("/avaliacoes-credito/**").uri("lb://msavaliadorcredito"))
 				.build();
