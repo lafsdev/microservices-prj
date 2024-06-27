@@ -5,8 +5,10 @@ import feign.RetryableException;
 import io.github.lafsdev.msavaliadorcredito.domain.model.*;
 import io.github.lafsdev.msavaliadorcredito.ex.DadosClientesNotFoundException;
 import io.github.lafsdev.msavaliadorcredito.ex.ErroComunicacaoMicroservicesException;
+import io.github.lafsdev.msavaliadorcredito.ex.ErroSolicitacaoCartaoException;
 import io.github.lafsdev.msavaliadorcredito.infra.clients.CartoesResourcesClient;
 import io.github.lafsdev.msavaliadorcredito.infra.clients.ClienteResourceClient;
+import io.github.lafsdev.msavaliadorcredito.infra.mqueue.SolicitacaoEmissaoCartaoPublisher;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +24,7 @@ public class AvaliadorCreditoService {
 
     private final ClienteResourceClient clienteResourceClient;
     private final CartoesResourcesClient cartoesResourcesClient;
+    private final SolicitacaoEmissaoCartaoPublisher solicitacaoEmissaoCartaoPublisher;
 
     public SituacaoCliente obterSituacaoCliente(String cpf) throws DadosClientesNotFoundException, ErroComunicacaoMicroservicesException {
 
@@ -70,6 +74,17 @@ public class AvaliadorCreditoService {
                 throw new DadosClientesNotFoundException();
             }
             throw new ErroComunicacaoMicroservicesException(e.getMessage(), status);
+        }
+
+    }
+
+    public ProtocoloSolicitacaoCartao solicitarEmissaoCartao(DadosSolicitacaoEmissaoCartao dados) {
+        try {
+            solicitacaoEmissaoCartaoPublisher.solicitarCartao(dados);
+            var protocolo = UUID.randomUUID().toString();
+            return new ProtocoloSolicitacaoCartao(protocolo);
+        } catch (Exception e) {
+            throw new ErroSolicitacaoCartaoException(e.getMessage());
         }
 
     }
